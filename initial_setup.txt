@@ -1,5 +1,5 @@
 1.1 create a filed called "credentials" 
-	in the dir ~/.ssh
+	in the dir ~/.aws
 1.2 put in the foll creds in the file above
 	aws_access_key_id = ***
 	aws_secret_access_key = ***
