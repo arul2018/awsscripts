@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+'''This program will create a daily archive S3 bucket. 
+And if one already exists it will let you know with a message like
+This bucket already exists : archive-arul-test1-16-02-20
+'''
+
+import boto3
+import logging
+from botocore.exceptions import ClientError
+s3 = boto3.resource('s3')
+from datetime import date
+
+
+
+def get_todays_date():
+	return date.today().strftime("%d-%m-%y")
+
+BUCKET_NAME = 'archive-arul-test1-' + get_todays_date()
+AWS_DEFAULT_REGION = 'us-west-2'
+
+def bucket_not_exists(bucket):
+	return s3.Bucket(bucket).creation_date is None
+
+def create_bucket(bucket_name, region='us-west-2'):
+	try:
+		s3.create_bucket(Bucket=bucket_name,
+			CreateBucketConfiguration={'LocationConstraint': AWS_DEFAULT_REGION}
+			)
+	except ClientError as e:
+		logging.error(e)
+		return False
+	return true
+
+def main():
+	if bucket_not_exists(BUCKET_NAME):
+		create_bucket(BUCKET_NAME)
+	else:
+		print(f'This bucket already exists : {BUCKET_NAME}')
+
+main()
